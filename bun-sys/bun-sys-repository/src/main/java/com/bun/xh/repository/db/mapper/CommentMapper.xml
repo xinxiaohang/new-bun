@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bun.xh.repository.db.dao.CommentMapper">
+  <resultMap id="BaseResultMap" type="com.bun.xh.repository.db.model.Comment">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="comment_id" jdbcType="VARCHAR" property="commentId" />
+    <result column="comment_desc" jdbcType="VARCHAR" property="commentDesc" />
+    <result column="comment_time" jdbcType="TIMESTAMP" property="commentTime" />
+    <result column="news_id" jdbcType="VARCHAR" property="newsId" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="resp_comment_id" jdbcType="VARCHAR" property="respCommentId" />
+    <result column="comm_support_time" jdbcType="INTEGER" property="commSupportTime" />
+    <result column="comm_tread_time" jdbcType="INTEGER" property="commTreadTime" />
+    <result column="comm_report_time" jdbcType="INTEGER" property="commReportTime" />
+    <result column="comm_report_reason" jdbcType="VARCHAR" property="commReportReason" />
+    <result column="version" jdbcType="INTEGER" property="version" />
+    <result column="created_at" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, comment_id, comment_desc, comment_time, news_id, user_id, user_name, resp_comment_id, 
+    comm_support_time, comm_tread_time, comm_report_time, comm_report_reason, version, created_at, updated_at
+  </sql>
+
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.bun.xh.repository.db.model.Comment" useGeneratedKeys="true">
+    insert into comment (comment_id, comment_desc, comment_time, 
+      news_id, user_id, user_name, 
+      resp_comment_id, comm_support_time, comm_tread_time, 
+      comm_report_time, comm_report_reason, version, created_at,
+      updated_at)
+    values (#{commentId,jdbcType=VARCHAR}, #{commentDesc,jdbcType=VARCHAR}, #{commentTime,jdbcType=TIMESTAMP}, 
+      #{newsId,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, 
+      #{respCommentId,jdbcType=VARCHAR}, #{commSupportTime,jdbcType=INTEGER}, #{commTreadTime,jdbcType=INTEGER}, 
+      #{commReportTime,jdbcType=INTEGER}, #{commReportReason,jdbcType=VARCHAR}, #{version,jdbcType=INTEGER}, #{createdAt,jdbcType=TIMESTAMP},
+      #{updatedAt,jdbcType=TIMESTAMP})
+  </insert>
+
+  <delete id="deleteCommByCommId" >
+    delete from comment
+    where comment_id = #{commentId,jdbcType=BIGINT}
+  </delete>
+
+  <update id="updateCommByCommentId" parameterType="com.bun.xh.repository.db.model.Comment">
+    update comment
+    <set>
+      comment_desc = #{commentDesc,jdbcType=VARCHAR},
+      comment_time = #{commentTime,jdbcType=TIMESTAMP},
+      news_id = #{newsId,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      resp_comment_id = #{respCommentId,jdbcType=VARCHAR},
+      comm_support_time = #{commSupportTime,jdbcType=INTEGER},
+      comm_tread_time = #{commTreadTime,jdbcType=INTEGER},
+      comm_report_time = #{commReportTime,jdbcType=INTEGER},
+      comm_report_reason = #{commReportReason,jdbcType=VARCHAR},
+      version = #{version,jdbcType=INTEGER}
+    </set>
+    where comment_id = #{commentId,jdbcType=BIGINT}
+  </update>
+
+  <select id="selectCommByCommId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from comment
+    where comment_id = #{commentId,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectCommByUserIdAndCommId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from comment
+    where user_id = #{userId,jdbcType=VARCHAR}
+    and comment_id = #{commentId,jdbcType=VARCHAR}
+  </select>
+</mapper>

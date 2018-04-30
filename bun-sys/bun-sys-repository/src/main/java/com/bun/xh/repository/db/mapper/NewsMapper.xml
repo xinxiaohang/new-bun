@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bun.xh.repository.db.dao.NewsMapper">
+  <resultMap id="BaseResultMap" type="com.bun.xh.repository.db.model.News">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="news_id" jdbcType="VARCHAR" property="newsId" />
+    <result column="news_title" jdbcType="VARCHAR" property="newsTitle" />
+    <result column="new_desc" jdbcType="VARCHAR" property="newDesc" />
+    <result column="news_pic" jdbcType="VARCHAR" property="newsPic" />
+    <result column="news_type" jdbcType="INTEGER" property="newsType" />
+    <result column="news_status" jdbcType="INTEGER" property="newsStatus" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="news_support_time" jdbcType="INTEGER" property="newsSupportTime" />
+    <result column="news_report_time" jdbcType="INTEGER" property="newsReportTime" />
+    <result column="news_report_reason" jdbcType="VARCHAR" property="newsReportReason" />
+    <result column="news_tread_time" jdbcType="INTEGER" property="newsTreadTime" />
+    <result column="version" jdbcType="INTEGER" property="version" />
+    <result column="created_at" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, news_id, news_title, new_desc, news_pic, news_type, news_status, user_id, news_support_time, 
+    news_report_time, news_report_reason, news_tread_time, version, created_at, updated_at
+  </sql>
+
+  <delete id="deleteNewsByNewsId">
+    delete from news
+    where news_id = #{newsId,jdbcType=BIGINT}
+  </delete>
+
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.bun.xh.repository.db.model.News" useGeneratedKeys="true">
+    insert into news (news_id, news_title, new_desc, 
+      news_pic, news_type, news_status, 
+      user_id, news_support_time, news_report_time, 
+      news_report_reason, news_tread_time, version, created_at,
+      updated_at)
+    values (#{newsId,jdbcType=VARCHAR}, #{newsTitle,jdbcType=VARCHAR}, #{newDesc,jdbcType=VARCHAR}, 
+      #{newsPic,jdbcType=VARCHAR}, #{newsType,jdbcType=INTEGER}, #{newsStatus,jdbcType=INTEGER}, 
+      #{userId,jdbcType=VARCHAR}, #{newsSupportTime,jdbcType=INTEGER}, #{newsReportTime,jdbcType=INTEGER}, #{newsReportReason,jdbcType=VARCHAR},
+      #{newsTreadTime,jdbcType=INTEGER}, #{version,jdbcType=INTEGER}, #{createdAt,jdbcType=TIMESTAMP}, 
+      #{updatedAt,jdbcType=TIMESTAMP})
+  </insert>
+
+  <update id="updateByNewsId" parameterType="com.bun.xh.repository.db.model.News">
+    update news
+    set
+      news_title = #{newsTitle,jdbcType=VARCHAR},
+      new_desc = #{newDesc,jdbcType=VARCHAR},
+      news_pic = #{newsPic,jdbcType=VARCHAR},
+      news_type = #{newsType,jdbcType=INTEGER},
+      news_status = #{newsStatus,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=VARCHAR},
+      news_support_time = #{newsSupportTime,jdbcType=INTEGER},
+      news_report_time = #{newsReportTime,jdbcType=INTEGER},
+      news_report_reason = #{newsReportReason,jdbcType=VARCHAR},
+      news_tread_time = #{newsTreadTime,jdbcType=INTEGER},
+      version = version + 1
+    where news_id = #{newsId,jdbcType=VARCHAR}
+    and version = #{version,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectNewsByNewsId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from news
+    where news_id = #{newsId,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectNewsByUserIdAndNewId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from news
+    where user_id = #{userId,jdbcType=VARCHAR}
+    and news_id = #{newsId,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectNewsByNewsIds" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from news
+    where news_id in
+    <foreach collection="newsIds" item="newsId" open="("
+             close=")" separator=",">
+      #{newsId,jdbcType=VARCHAR}
+    </foreach>
+  </select>
+</mapper>

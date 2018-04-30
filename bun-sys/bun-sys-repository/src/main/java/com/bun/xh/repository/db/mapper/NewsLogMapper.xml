@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bun.xh.repository.db.dao.NewsLogMapper">
+  <resultMap id="BaseResultMap" type="com.bun.xh.repository.db.model.NewsLog">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="news_id" jdbcType="VARCHAR" property="newsId" />
+    <result column="from_status" jdbcType="INTEGER" property="fromStatus" />
+    <result column="to_status" jdbcType="INTEGER" property="toStatus" />
+    <result column="opt_time" jdbcType="TIMESTAMP" property="optTime" />
+    <result column="check_user_name" jdbcType="VARCHAR" property="checkUserName" />
+    <result column="check_user_id" jdbcType="VARCHAR" property="checkUserId" />
+    <result column="overrule_reason" jdbcType="VARCHAR" property="overruleReason" />
+    <result column="version" jdbcType="INTEGER" property="version" />
+    <result column="created_at" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, news_id, from_status, to_status, opt_time, check_user_name, check_user_id, overrule_reason, 
+    version, created_at, updated_at
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from news_log
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from news_log
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.bun.xh.repository.db.model.NewsLog" useGeneratedKeys="true">
+    insert into news_log (news_id, from_status, to_status, 
+      opt_time, check_user_name, check_user_id, 
+      overrule_reason, version, created_at, 
+      updated_at)
+    values (#{newsId,jdbcType=VARCHAR}, #{fromStatus,jdbcType=INTEGER}, #{toStatus,jdbcType=INTEGER},
+      #{optTime,jdbcType=TIMESTAMP}, #{checkUserName,jdbcType=VARCHAR}, #{checkUserId,jdbcType=VARCHAR}, 
+      #{overruleReason,jdbcType=VARCHAR}, #{version,jdbcType=INTEGER}, #{createdAt,jdbcType=TIMESTAMP}, 
+      #{updatedAt,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.bun.xh.repository.db.model.NewsLog" useGeneratedKeys="true">
+    insert into news_log
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="newsId != null">
+        news_id,
+      </if>
+      <if test="fromStatus != null">
+        from_status,
+      </if>
+      <if test="toStatus != null">
+        to_status,
+      </if>
+      <if test="optTime != null">
+        opt_time,
+      </if>
+      <if test="checkUserName != null">
+        check_user_name,
+      </if>
+      <if test="checkUserId != null">
+        check_user_id,
+      </if>
+      <if test="overruleReason != null">
+        overrule_reason,
+      </if>
+      <if test="version != null">
+        version,
+      </if>
+      <if test="createdAt != null">
+        created_at,
+      </if>
+      <if test="updatedAt != null">
+        updated_at,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="newsId != null">
+        #{newsId,jdbcType=VARCHAR},
+      </if>
+      <if test="fromStatus != null">
+        #{fromStatus,jdbcType=INTEGER},
+      </if>
+      <if test="toStatus != null">
+        #{toStatus,jdbcType=INTEGER},
+      </if>
+      <if test="optTime != null">
+        #{optTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkUserName != null">
+        #{checkUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="checkUserId != null">
+        #{checkUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="overruleReason != null">
+        #{overruleReason,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null">
+        #{version,jdbcType=INTEGER},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bun.xh.repository.db.model.NewsLog">
+    update news_log
+    <set>
+      <if test="newsId != null">
+        news_id = #{newsId,jdbcType=VARCHAR},
+      </if>
+      <if test="fromStatus != null">
+        from_status = #{fromStatus,jdbcType=INTEGER},
+      </if>
+      <if test="toStatus != null">
+        to_status = #{toStatus,jdbcType=INTEGER},
+      </if>
+      <if test="optTime != null">
+        opt_time = #{optTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkUserName != null">
+        check_user_name = #{checkUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="checkUserId != null">
+        check_user_id = #{checkUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="overruleReason != null">
+        overrule_reason = #{overruleReason,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null">
+        version = #{version,jdbcType=INTEGER},
+      </if>
+      <if test="createdAt != null">
+        created_at = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null">
+        updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bun.xh.repository.db.model.NewsLog">
+    update news_log
+    set news_id = #{newsId,jdbcType=VARCHAR},
+      from_status = #{fromStatus,jdbcType=INTEGER},
+      to_status = #{toStatus,jdbcType=INTEGER},
+      opt_time = #{optTime,jdbcType=TIMESTAMP},
+      check_user_name = #{checkUserName,jdbcType=VARCHAR},
+      check_user_id = #{checkUserId,jdbcType=VARCHAR},
+      overrule_reason = #{overruleReason,jdbcType=VARCHAR},
+      version = #{version,jdbcType=INTEGER},
+      created_at = #{createdAt,jdbcType=TIMESTAMP},
+      updated_at = #{updatedAt,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

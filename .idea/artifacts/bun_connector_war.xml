@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="bun-connector:war">
+    <output-path>$PROJECT_DIR$/bun-connector/target</output-path>
+    <root id="archive" name="bun-connector.war">
+      <element id="artifact" artifact-name="bun-connector:war exploded" />
+    </root>
+  </artifact>
+</component>

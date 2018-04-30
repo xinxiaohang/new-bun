@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="
+            http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+            ">
+
+    <!--数据源 -->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+          destroy-method="close" p:driverClass="${jdbc.driver}" p:jdbcUrl="${jdbc.url}"
+          p:user="${jdbc.user}" p:password="${jdbc.password}"
+          p:acquireIncrement="${jdbc.acquireIncrement}"
+          p:idleConnectionTestPeriod="${jdbc.idleConnectionTestPeriod}"
+          p:maxPoolSize="${jdbc.maxPoolSize}" p:minPoolSize="${jdbc.minPoolSize}"
+          p:maxStatements="${jdbc.maxStatements}" p:maxIdleTime="540"
+          p:maxConnectionAge="120" p:checkoutTimeout="${jdbc.checkoutTimeout}"
+          p:numHelperThreads="30"/>
+
+    <!-- mybatis session factory -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="mapperLocations"
+                  value="classpath*:com/bun/xh/repository/db/mapper/*Mapper.xml" />
+
+        <property name="plugins">
+            <list>
+                <bean class="com.bun.xh.repository.db.interceptor.SqlLogInterceptor" />
+                <bean class="com.bun.xh.repository.db.interceptor.PaginationInterceptor">
+                    <property name="dialect">
+                        <bean class="com.bun.xh.repository.db.interceptor.MySql5Dialect" />
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- 扫描mapper接口，生成代理注入到spring容器 -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+        <property name="basePackage" value="com.bun.xh.repository.db.dao" />
+    </bean>
+
+    <!-- 声明事务管理器 -->
+    <bean id="transactionManager"
+          class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+
+    <!-- 声明编程式事务管理模版 -->
+    <bean id="transactionTemplate"
+          class="org.springframework.transaction.support.TransactionTemplate" primary="true">
+        <property name="transactionManager" ref="transactionManager" />
+    </bean>
+</beans>

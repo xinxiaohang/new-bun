@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$" charset="UTF-8" />
+    <file url="file://F:/bun-sys" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/bun-connector" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/bun-sys" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/bun-sys/bun-sys-api" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/bun-sys/bun-sys-biz" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/bun-sys/bun-sys-comm" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/bun-sys/bun-sys-repository" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/bun-sys/bun-sys-service" charset="UTF-8" />
+  </component>
+</project>
